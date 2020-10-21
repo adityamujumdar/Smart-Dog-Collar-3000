@@ -11,8 +11,9 @@ Here is the overall schematic for our system (v0.1)
 
 **GPS Module**
 
-First, update the Raspberry Pi's kernel by using `rpi-update`
-* This process may take up to 30 minutes
+* First, update the Raspberry Pi's kernel by using `rpi-update`
+  This process may take up to 30 minutes
+* Now, type in `sudo reboot` to reboot the Raspberri Pi
 
 Then, we need to enable the serial ports on the Raspberry Pi. With the GPS module plugged in, execute the following command:
 
