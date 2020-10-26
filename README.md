@@ -29,6 +29,10 @@ For easy access to the Pi, ssh is also setup. In order to setup ssh, complete th
   
 ![alt_text](https://phoenixnap.com/kb/wp-content/uploads/2020/01/raspi-config-ssh.png)
 
+
+* **NOTE**: In order to enable I2C for I2C enabled devices, follow the same steps, but select *I2C* instead of *SSH*.
+
+
 Now the Raspberry Pi should be able to accept ssh connections. In order to enable SSH, follow these steps:
 * `sudo systemctl enable ssh`
 * `sudo systemctl start ssh`
