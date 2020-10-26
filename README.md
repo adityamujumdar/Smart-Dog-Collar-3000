@@ -11,9 +11,9 @@ Here is the overall schematic for our system (v0.1)
 
 **Setting up Raspberry Pi Zero**
 
-The specific Raspberry Pi Zero being used can be found for sale here: https://rb.gy/mcofca
+* The specific Raspberry Pi Zero being used can be found for sale here: https://rb.gy/mcofca
 
-Raspbian Jesse was used on our Pi, and can be downloaded here: http://downloads.raspberrypi.org/raspbian/images/raspbian-2020-02-14/2020-02-13-raspbian-buster.zip
+* Raspbian Jesse was used on our Pi, and can be downloaded here: http://downloads.raspberrypi.org/raspbian/images/raspbian-2020-02-14/2020-02-13-raspbian-buster.zip
 
 
 **GPS Module**
