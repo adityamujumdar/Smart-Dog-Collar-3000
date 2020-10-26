@@ -9,6 +9,13 @@ Senior Capstone Project for an IoT device
 Here is the overall schematic for our system (v0.1)
 ![alt_text](https://user-images.githubusercontent.com/44142909/96659591-2d89db80-12fc-11eb-9afc-ad92f7a492bc.png)
 
+**Setting up Raspberry Pi Zero**
+
+The specific Raspberry Pi Zero being used can be found for sale here: https://rb.gy/mcofca
+
+Raspbian Jesse was used on our Pi, and can be downloaded here: http://downloads.raspberrypi.org/raspbian/images/raspbian-2020-02-14/2020-02-13-raspbian-buster.zip
+
+
 **GPS Module**
 
 * First, update the Raspberry Pi's kernel by using `rpi-update`
