@@ -15,6 +15,22 @@ Here is the overall schematic for our system (v0.1)
 
 * Raspbian Jesse was used on our Pi, and can be downloaded here: http://downloads.raspberrypi.org/raspbian/images/raspbian-2020-02-14/2020-02-13-raspbian-buster.zip
 
+Now, do `sudo apt-get update` to update the OS's dependencies. Then do `sudo reboot`
+
+For easy access to the Pi, ssh is also setup. In order to setup ssh, complete the following:
+
+* `sudo raspi-config`
+
+* Select *Interfacing Options* 
+![alt text](https://phoenixnap.com/kb/wp-content/uploads/2020/01/raspi-config-interfacing-options.png)
+
+* Select *SSH* and select <Yes> on the “Would you like the SSH server to be enabled?” prompt.
+![alt_text](https://phoenixnap.com/kb/wp-content/uploads/2020/01/raspi-config-ssh.png)
+
+Now the Raspberry Pi should be able to accept ssh connections. In order to enable SSH, follow these steps:
+* `sudo systemctl enable ssh`
+* `sudo systemctl start ssh`
+
 
 **GPS Module**
 
