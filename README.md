@@ -4,12 +4,14 @@ Senior Capstone Project for an IoT device
 
 # Steps Taken on Raspberry Pi
 
-**Schematic**
+## Schematic
 
 Here is the overall schematic for our system (v0.1)
 ![alt_text](https://user-images.githubusercontent.com/44142909/96659591-2d89db80-12fc-11eb-9afc-ad92f7a492bc.png)
 
-**Setting up Raspberry Pi Zero**
+**NOTE**: Seems like schematic is wrong, for GPS module TX is connected to RX and vice versa.
+
+## Setting up Raspberry Pi Zero
 
 * The specific Raspberry Pi Zero being used can be found for sale here: https://rb.gy/mcofca
 
@@ -38,11 +40,17 @@ Now the Raspberry Pi should be able to accept ssh connections. In order to enabl
 * `sudo systemctl start ssh`
 
 
-**GPS Module**
+## GPS Module
+
+**Prerequisites**
 
 * First, update the Raspberry Pi's kernel by using `rpi-update`
   This process may take up to 30 minutes
 * Now, type in `sudo reboot` to reboot the Raspberri Pi
+
+Next, we will install some dependencies to be able to interact with the GPS module:
+* `sudo apt-get install gpsd`
+* `sudo apt-get install gpsd-clients`
 
 Then, we need to enable the serial ports on the Raspberry Pi. With the GPS module plugged in, execute the following command:
 
@@ -56,3 +64,17 @@ Select *Interfacing Options*, then *Serial*
 ![alt_text](https://maker.pro/storage/G2g9fjl/G2g9fjlbcKjQNlGecFn1yekjWx3B3f791dMzyMjY.png)
 
 Select *Finish*, then type in `sudo reboot` to reboot the Raspberry Pi.
+
+**Interfacing with GPS Module**
+
+Now we can begin interfacing with the GPS Module, and viewing the data it is recieving. Since we are using a Raspberry Pi Zero W, we will be interfacing with the `/dev/ttyS0`. Other articles mention using `/dev/ttyAMA0`, however this is only on Raspberry Pi's 1 & 2.
+
+In order to get the GPS module to connect to the Pi, run this instruction:
+* `sudo gpsd /dev/ttyS0 -F /var/run/gpsd.sock`
+
+Now the GPS Module should be outputting its data to the Pi. In order to view the data, execute this command:
+* `sudo gpsmon /dev/ttyS0`
+
+The output should resemble the following:
+![alt_text](https://user-images.githubusercontent.com/44142909/98030107-c2e1a100-1dcd-11eb-898a-79c2dd4db52f.png)
+
