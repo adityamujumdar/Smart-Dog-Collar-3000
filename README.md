@@ -9,8 +9,6 @@ Senior Capstone Project for an IoT device
 Here is the overall schematic for our system (v0.1)
 ![alt_text](https://user-images.githubusercontent.com/44142909/96659591-2d89db80-12fc-11eb-9afc-ad92f7a492bc.png)
 
-**NOTE**: Seems like schematic is wrong, for GPS module TX is connected to RX and vice versa.
-
 ## Setting up Raspberry Pi Zero
 
 * The specific Raspberry Pi Zero being used can be found for sale here: https://rb.gy/mcofca
