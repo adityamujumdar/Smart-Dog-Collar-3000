@@ -87,4 +87,4 @@ The output should resemble the following:
 
 With this, the dependencies have been installed.
 
-Check all connections are in place. After running the step_counter.py, we get the current temperature and steps taken as output. 
+Check all connections are in place. After running the `pedometer/step_counter.py`, we get the current temperature and steps taken as output. 
