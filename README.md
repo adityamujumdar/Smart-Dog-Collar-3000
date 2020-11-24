@@ -7,7 +7,7 @@ Senior Capstone Project for an IoT device
 ## Schematic
 
 Here is the overall schematic for our system (v0.1)
-![alt_text](https://user-images.githubusercontent.com/47087525/98192775-e34a5200-1ed8-11eb-899a-848ba379746f.png)
+![alt_text](https://user-images.githubusercontent.com/47087525/100073859-41dd5e80-2dfb-11eb-9189-17576a0fa752.png)
 
 * **NOTE**: The TXD and RXD pins on GPS module were interchanged. Thus, for the GPS to be connected to the correct pins on the PI, they had to be flipped.
 
