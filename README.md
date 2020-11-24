@@ -78,3 +78,15 @@ Now the GPS Module should be outputting its data to the Pi. In order to view the
 The output should resemble the following:
 ![alt_text](https://user-images.githubusercontent.com/44142909/98030107-c2e1a100-1dcd-11eb-898a-79c2dd4db52f.png)
 
+## Accelerometer Module
+
+**Prerequisites**
+
+* First, we need to install the GPIO control module for the Raspberry Pi using the command:
+* `pip3 install RPi.GPIO`
+* Then, we install the mpu6050 module for accessing the digital accelerometer and gyroscope on a Raspberry Pi with:
+* `pip3 install mpu6050-raspberrypi`
+
+With this, the dependencies have been installed.
+
+Check all connections are in place. After running the step_counter.py, we get the current temperature and steps taken as output. 
