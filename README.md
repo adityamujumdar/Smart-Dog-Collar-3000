@@ -82,10 +82,8 @@ The output should resemble the following:
 
 **Prerequisites**
 
-* First, we need to install the GPIO control module for the Raspberry Pi using the command:
-* `pip3 install RPi.GPIO`
-* Then, we install the mpu6050 module for accessing the digital accelerometer and gyroscope on a Raspberry Pi with:
-* `pip3 install mpu6050-raspberrypi`
+* First, we need to install the GPIO control module for the Raspberry Pi using the command `pip3 install RPi.GPIO`
+* Then, we install the mpu6050 module for accessing the digital accelerometer and gyroscope on a Raspberry Pi with `pip3 install mpu6050-raspberrypi`
 
 With this, the dependencies have been installed.
 
