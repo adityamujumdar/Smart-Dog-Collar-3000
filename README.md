@@ -75,8 +75,6 @@ In order to get the GPS module to connect to the Pi, run this instruction:
 Now the GPS Module should be outputting its data to the Pi. In order to view the data, execute this command:
 * `sudo gpsmon /dev/ttyS0`
 
-The output should resemble the following:
-![alt_text](https://user-images.githubusercontent.com/44142909/98030107-c2e1a100-1dcd-11eb-898a-79c2dd4db52f.png)
 
 ## Accelerometer Module
 
