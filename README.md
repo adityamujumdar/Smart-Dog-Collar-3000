@@ -86,3 +86,18 @@ Now the GPS Module should be outputting its data to the Pi. In order to view the
 With this, the dependencies have been installed.
 
 Check all connections are in place. After running the `pedometer/step_counter.py`, we get the current temperature and steps taken as output. 
+
+
+## Bluetooth Interfacing with Raspberry Pi
+
+**Prerequisites**
+
+```
+sudo apt-get update
+sudo apt-get upgrade
+```
+* After updating, we will need to download a couple Bluetooth Packages:
+
+`sudo apt-get install bluetooth blueman bluez`
+
+* Now, reboot the Pi with `sudo reboot`
