@@ -102,6 +102,10 @@ sudo apt-get upgrade
 
 * Now, reboot the Pi with `sudo reboot`
 
-* We'll need the Python Library for Bluetooth communication to allow us to send and recieve data
+We'll need the Python Library for Bluetooth communication to allow us to send and recieve data
 
 `sudo apt-get install python-bluetooth`
+
+and we also need the GPIO Library:
+
+`sudo apt-get install python-rpi.gpio`
