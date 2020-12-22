@@ -101,3 +101,7 @@ sudo apt-get upgrade
 `sudo apt-get install bluetooth blueman bluez`
 
 * Now, reboot the Pi with `sudo reboot`
+
+* We'll need the Python Library for Bluetooth communication to allow us to send and recieve data
+
+`sudo apt-get install python-bluetooth`
