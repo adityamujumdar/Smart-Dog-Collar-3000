@@ -119,7 +119,7 @@ and we also need the GPIO Library:
 sudo apt-get install g++ protobuf-compiler libprotobuf-dev libboost-dev curl m4 wget
 
 #At this point make sure you check to see that 2.0.4 is still the most recent version of RethinkDB! http://rethinkdb.com
-wget http://download.rethinkdb.com/dist/rethinkdb-latest.tgz
+wget https://download.rethinkdb.com/repository/raw/dist/rethinkdb-2.4.1.tgz
 tar xf rethinkdb-latest.tgz
 rm rethinkdb-latest.tgz
 cd rethinkdb-*
