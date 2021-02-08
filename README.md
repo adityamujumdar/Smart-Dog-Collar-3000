@@ -40,6 +40,11 @@ Now the Raspberry Pi should be able to accept ssh connections. In order to enabl
 * `sudo systemctl start ssh`
 
 
+Dependency Installation:
+
+* `sudo apt-get install aptitude`
+* `sudo aptitude install clang++`
+
 ## GPS Module
 
 **Prerequisites**
