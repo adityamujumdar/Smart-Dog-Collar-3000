@@ -114,7 +114,7 @@ and we also need the GPIO Library:
 
 * Rather than relying on a bluetooth connection to interact with the Raspberry Pi using the Android App, the Raspberry Pi will instead send information to a database that the app can then access.
 
-* Source: https://rethinkdb.com/blog/temperature-sensors-and-a-side-of-pi/
+* Source: https://rethinkdb.com/docs/install/raspbian/
 ```
 sudo apt-get install g++ protobuf-compiler libprotobuf-dev libboost-dev curl m4 wget
 
