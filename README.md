@@ -88,7 +88,7 @@ With this, the dependencies have been installed.
 Check all connections are in place. After running the `pedometer/step_counter.py`, we get the current temperature and steps taken as output. 
 
 
-## Bluetooth Interfacing with Raspberry Pi
+## Bluetooth Interfacing with Raspberry Pi (Scrapped)
 
 **Prerequisites**
 
@@ -109,3 +109,23 @@ We'll need the Python Library for Bluetooth communication to allow us to send an
 and we also need the GPIO Library:
 
 `sudo apt-get install python-rpi.gpio`
+
+## RethinkDB Database Setup
+
+* Rather than relying on a bluetooth connection to interact with the Raspberry Pi using the Android App, the Raspberry Pi will instead send information to a database that the app can then access.
+
+* Source: https://rethinkdb.com/blog/temperature-sensors-and-a-side-of-pi/
+```
+sudo apt-get install g++ protobuf-compiler libprotobuf-dev libboost-dev curl m4 wget
+
+#At this point make sure you check to see that 2.0.4 is still the most recent version of RethinkDB! http://rethinkdb.com
+wget http://download.rethinkdb.com/dist/rethinkdb-latest.tgz
+tar xf rethinkdb-latest.tgz
+rm rethinkdb-latest.tgz
+cd rethinkdb-*
+./configure --with-system-malloc --allow-fetch 
+
+#Export the proper C++ flags for Raspberry Pi 1/2
+export CXXFLAGS="-mfpu=neon-vfpv4 -mcpu=native -march=native -mfloat-abi=hard" | make -j3 ALLOW_WARNINGS=1
+sudo make install
+```
