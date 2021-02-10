@@ -122,11 +122,6 @@ and we also need the GPIO Library:
 ```
 sudo apt-get install g++ protobuf-compiler libprotobuf-dev libboost-dev curl m4 wget
 
-source /etc/lsb-release && echo "deb https://download.rethinkdb.com/repository/ubuntu-$DISTRIB_CODENAME $DISTRIB_CODENAME main" | sudo tee /etc/apt/sources.list.d/rethinkdb.list
-wget -qO- https://download.rethinkdb.com/repository/raw/pubkey.gpg | sudo apt-key add -
-sudo apt-get update
-sudo apt-get install rethinkdb
-
 #At this point make sure you check to see that 2.0.4 is still the most recent version of RethinkDB! http://rethinkdb.com
 
 wget https://download.rethinkdb.com/repository/raw/dist/rethinkdb-2.4.1.tgz
@@ -134,6 +129,7 @@ tar xf rethinkdb-latest.tgz
 rm rethinkdb-latest.tgz
 cd rethinkdb-*
 ./configure --with-system-malloc --allow-fetch 
+make
 
 #Export the proper C++ flags for Raspberry Pi 1/2
 
