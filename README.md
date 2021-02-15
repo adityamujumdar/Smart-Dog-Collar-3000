@@ -119,6 +119,27 @@ and we also need the GPIO Library:
 * Rather than relying on a bluetooth connection to interact with the Raspberry Pi using the Android App, the Raspberry Pi will instead send information to a database that the app can then access.
 
 * Source: https://rethinkdb.com/docs/install/raspbian/
+
+
+# Prerequisite (Raspberry Pi Zero)
+
+* Since the Raspberry Pi Zero has very limited memory, we need to setup a 1GB SWAP partition for the compilation of RethinkDB to work properly (source: https://nebl.io/neblio-university/enabling-increasing-raspberry-pi-swap/).
+
+```
+sudo dphys-swapfile swapoff
+
+sudo nano /etc/dphys-swapfile
+    #modify the variable CONF_SWAPSIZE to 1024:
+    CONF_SWAPSIZE=1024
+
+sudo dphys-swapfile setup
+
+sudo dphys-swapfile swapon
+
+sudo reboot
+
+
+# Installing RethinkDB
 ```
 sudo apt-get install g++ protobuf-compiler libprotobuf-dev libboost-dev curl m4 wget
 
