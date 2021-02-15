@@ -137,7 +137,7 @@ sudo dphys-swapfile setup
 sudo dphys-swapfile swapon
 
 sudo reboot
-
+```
 
 # Installing RethinkDB
 ```
