@@ -157,3 +157,31 @@ make
 export CXXFLAGS="-mfpu=neon-vfpv4 -mcpu=native -march=native -mfloat-abi=hard" | make -j3 ALLOW_WARNINGS=1
 sudo make install
 ```
+
+* Now that RethinkDB is installed, we need to ensure that RethinkDB starts correctly when using it.
+
+* In order to do this, `sudo nano /etc/rc.local` and modify it to look like the following:
+```
+#!/bin/sh -e
+#
+# rc.local
+#
+# This script is executed at the end of each multiuser runlevel.
+# Make sure that the script will "exit 0" on success or any other
+# value on error.
+#
+# In order to enable or disable this script just change the execution
+# bits.
+#
+# By default this script does nothing.
+
+# Print the IP address
+_IP=$(hostname -I) || true
+if [ "$_IP" ]; then
+  printf "My IP address is %s\n" "$_IP"
+fi
+
+rethinkdb --bind all --server-name rbpi_rethinkdb -d /home/pi --daemon
+
+exit 0
+```
