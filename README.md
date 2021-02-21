@@ -80,6 +80,8 @@ Now we can begin interfacing with the GPS Module, and viewing the data it is rec
 
 * To test that the GPS is outputting data, execute the following command: `cat /dev/serial0`
 * Now that we've confirmed that the GPS is outputting correctly, we need to stop the GPSD service to clear its default settings: `sudo systemctl disable gpsd.socket`
+
+*Please NOTE: The following command MUST be executed everytime the Raspberry Pi is restarted*
 * Start a new GPSD instance redirecting to our desired serial port: `sudo gpsd /dev/ttyS0 -F /var/run/gpsd.sock`
 
 
