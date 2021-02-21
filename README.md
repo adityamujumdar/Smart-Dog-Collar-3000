@@ -73,12 +73,14 @@ Select *Finish*, then type in `sudo reboot` to reboot the Raspberry Pi.
 
 Now we can begin interfacing with the GPS Module, and viewing the data it is recieving. Since we are using a Raspberry Pi Zero W, we will be interfacing with the `/dev/ttyS0`. Other articles mention using `/dev/ttyAMA0`, however this is only on Raspberry Pi's 1 & 2.
 
-In order to get the GPS module to connect to the Pi, run this instruction:
-* `sudo gpsd /dev/ttyS0 -F /var/run/gpsd.sock`
+* To test that the GPS is outputting data, execute the following command: `cat /dev/serial0`
+* Now that we've confirmed that the GPS is outputting correctly, we need to stop the GPSD service to clear its default settings: `sudo systemctl disable gpsd.socket`
+* Start a new GPSD instance redirecting to our desired serial port: `sudo gpsd /dev/ttyS0 -F /var/run/gpsd.sock`
+
 
 Now the GPS Module should be outputting its data to the Pi. In order to view the data, execute this command:
 * `sudo gpsmon /dev/ttyS0`
-
+-----------------------------------------------------------------------------
 
 ## Accelerometer Module
 
