@@ -3,6 +3,46 @@ import RPi.GPIO as gpio
 import smbus
 import time
 
+import rethinkdb as rdb
+import socket
+import datetime
+import logging
+import sys
+import time
+
+r = rdb.RethinkDB()
+
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
+    datefmt='%m-%d %H:%M'
+    )
+
+HOSTNAME = socket.gethostname()
+DB_HOST = "192.168.0.50"
+DB_PORT = 28015
+DB_NAME = "raspberrypi_p00"
+
+logging.info("Attempting db connection...")
+conn = r.connect(DB_HOST, DB_PORT, DB_NAME)
+logging.info("Successful DB connection")
+
+logging.info("Checking if db exists")
+
+if DB_NAME not in list(r.db_list().run(conn)):
+    logging.info("db does not exist, creating...")
+    r.db_create(DB_NAME).run(conn)
+logging.info("db exists")
+
+logging.info("Checking to see if table exists")
+
+if 'Accelerometer' not in list(r.table_list().run(conn)):
+    logging.info("table does not exist, creating...")
+    r.table_create("Accelerometer").run(conn)
+
+logging.info("table exists")
+conn.close()
+
 PWR_M = 0x6B
 DIV = 0x19
 CONFIG = 0x1A
@@ -53,7 +93,7 @@ def pedometer(accel_data):
     i = 2
     while(i<n-1):
         # print(f'i: {i}, i+1: {i+1}, n: {n}, accel_data[i] {accel_data[i]}, accel_data[i-1]: {accel_data[i-1]}\n')
-        print(f', accel_data[i+1]: {accel_data[i+1]}\n')
+        #print(f', accel_data[i+1]: {accel_data[i+1]}\n')
         if((accel_data[i]>accel_data[i-1]) and (accel_data[i]>accel_data[i+1])):
             p[i] = 1
         else:
@@ -66,13 +106,13 @@ def pedometer(accel_data):
         if(p[j]==1):
             if(k!=0):
                 D = (j-k-1)
-                if (D>2):
+                if (D>5):
                     step+=1
             k = j
         j+=1
     if(j==n):
         D=n-k
-        if(D>2):
+        if(D>5):
             step+=1
     return step
 
@@ -177,7 +217,7 @@ def display(x, y, z):
     x = x*100
     y = y*100
     z = z*100
-    print(f'x: {x}, y: {y}, z: {z}\n')
+    #print(f'x: {x}, y: {y}, z: {z}\n')
 
 
 def readMPU(addr):
@@ -197,7 +237,7 @@ def accel():
     Ay = (y/16384.0-AyCal)
     Az = (z/16384.0-AzCal)
     # print "X="+str(Ax)
-    print(f'Ax,Ay,Az: {Ax},{Ay},{Az}\n')
+    #print(f'Ax,Ay,Az: {Ax},{Ay},{Az}\n')
     to_pedometer = math.sqrt((Ax*Ax)+(Ay*Ay)+(Az*Az))
     time.sleep(.01)
     return to_pedometer
@@ -212,7 +252,7 @@ def gyro():
     Gx = x/131.0 - GxCal
     Gy = y/131.0 - GyCal
     Gz = z/131.0 - GzCal
-    print(f'Gx,Gy,Gz: {Gx},{Gy},{Gz}\n')
+    #print(f'Gx,Gy,Gz: {Gx},{Gy},{Gz}\n')
     time.sleep(.01)
     return (Gx, Gy, Gz)
 
@@ -246,7 +286,7 @@ def calibrate():
     AxCal = x/16384.0
     AyCal = y/16384.0
     AzCal = z/16384.0
-    print(f'AxCal,AyCal,AzCal: {AxCal},{AyCal},{AzCal}\n')
+    #print(f'AxCal,AyCal,AzCal: {AxCal},{AyCal},{AzCal}\n')
 
     global GxCal
     global GyCal
@@ -264,7 +304,7 @@ def calibrate():
     GxCal = x/131.0
     GyCal = y/131.0
     GzCal = z/131.0
-    print(f'GxCal,GyCal,GzCal: {GxCal},{GyCal},{GzCal}\n')
+    #print(f'GxCal,GyCal,GzCal: {GxCal},{GyCal},{GzCal}\n')
 
 def main():
     begin()
@@ -286,6 +326,22 @@ def main():
         steps_in_loop = pedometer(pedometer_val)
         total_steps += steps_in_loop
         print(f'Steps Taken: {total_steps}')
+
+        if temp is not None and total_steps is not None:
+                conn = r.connect(DB_HOST, DB_PORT, DB_NAME)
+                timezone = time.strftime("%z")
+                reql_tz = r.make_timezone(timezone[:3] + ":" + timezone[3:]) 
+		#You need to modify this if you are not in Pacific Standard Time!
+
+                r.table("Accelerometer").insert(dict(
+                        temperature = str(tempC),
+                        steps = total_steps,
+			datetime=datetime.datetime.now(reql_tz)
+                        )).run(conn, durability='soft')
+
+                conn.close()
+
+                logging.info("Successful sensor read (Temp: {:}, Steps: {:+.2f}) and insert into DB.".format(str(tempC), total_steps))
         # print(f'pedometer val: {pedometer_val}')
         # clear()
         # print("Gyroscope Data\n")
