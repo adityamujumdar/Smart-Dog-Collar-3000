@@ -42,7 +42,12 @@ Now the Raspberry Pi should be able to accept ssh connections. In order to enabl
 
 Dependency Installation:
 
-* `sudo apt-get install clang`
+```
+sudo apt-get install clang
+
+sudo pip install gps
+sudo pip3 install gps
+```
 
 ## GPS Module
 
