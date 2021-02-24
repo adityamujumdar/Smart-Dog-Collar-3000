@@ -48,7 +48,39 @@ sudo apt-get install clang
 sudo pip install gps
 sudo pip3 install gps
 ```
+##Anti-bark Module
+First, connect the audio breakout board, speaker, and microphone as indicated in the schematic
 
+Secondly, we need to edit some config files in the pi before it is able to output audio through the speaker
+using your favorite editor open the file /boot/config.txt
+`sudo vim /boot/config/txt`
+edit/add the following lines
+`#dtparam=audio=on
+dtoverlay=hifiberry-dac
+dtoverlay=i2s-mmap`
+
+Next, we want to add a new file /etc/asound.conf
+
+`sudo vim /etc/asound.conf`
+and we want to add the following lines:
+
+`pcm.hifiberry {
+type hw card 0
+}
+
+pcm.!default {
+type plug
+slave.pcm "dmixer"
+}
+
+pcm.dmixer {
+type dmix
+ipc_key 1024
+slave{
+pcm "hifiberry"
+channels 2
+}
+}`
 ## GPS Module
 
 **Prerequisites**
