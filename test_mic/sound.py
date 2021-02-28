@@ -1,6 +1,5 @@
 import RPi.GPIO as GPIO
 import time
-from playsound import playsound
 import math
 import smbus
 import rethinkdb as rdb
@@ -8,7 +7,9 @@ import socket
 import datetime
 import logging
 import sys
-
+import pygame
+import mixer
+from pygame import mixer
 
 r = rdb.RethinkDB()
 
@@ -19,9 +20,9 @@ logging.basicConfig(
 
 
 HOSTNAME = socket.gethostname()
-DB_HOST = "192.168.0.50"
+DB_HOST = "192.168.0.20"
 DB_PORT = 28015
-DB_NAME = "raspberrypi_p00"
+DB_NAME = "raspberrypi_gc3"
 
 logging.info("Attempting db connection...")
 conn = r.connect(DB_HOST, DB_PORT, DB_NAME)
@@ -43,23 +44,38 @@ if 'Anti-bark' not in list(r.table_list().run(conn)):
 logging.info("table exists")
 conn.close()
 
+pygame.mixer.init()
+pygame.mixer.music.load("highfreq.wav")
+
 #GPIO SETUP
-channel = 17
+channel = 22
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(channel, GPIO.IN)
 
 def callback(channel):
-	if GPIO.input(channel):
-		print("Sound Detected!")
-	        playsound('highfreq.wav')
-                time.sleep(1)
-        else:
-		print("Sound Detected!")                
-	        playsound('highfreq.wav')
-                time.sleep(1)
+    if GPIO.input(channel):
+        print("Sound Detected!")
+        pygame.mixer.music.play()
+        while pygame.mixer.music.get_busy() == True:
+            continue
+        time.sleep(1)
+    else:	 
+        print("Sound Detected!") 
+        pygame.mixer.music.play()
+        while pygame.mixer.music.get_busy() == True:
+            continue 
+        time.sleep(1)
+
 
 GPIO.add_event_detect(channel, GPIO.BOTH, bouncetime=300)
 GPIO.add_event_callback(channel, callback)
+
+
+if channel is not None:
+    conn = r.connect(DB_HOST, DB_PORT, DB_NAME)
+    
+    r.table("Anti-bark").insert(dict(signal = 1)).run(conn, durability ='soft')
+    conn.close()
 
 while True:
 	time.sleep(1)
