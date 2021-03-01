@@ -8,8 +8,8 @@ import datetime
 import logging
 import sys
 import pygame
-import mixer
-from pygame import mixer
+
+
 
 r = rdb.RethinkDB()
 
@@ -52,30 +52,47 @@ channel = 22
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(channel, GPIO.IN)
 
+
+signal = 0 
 def callback(channel):
-    if GPIO.input(channel):
+
+    if GPIO.input(channel): 
+        signal = 1
         print("Sound Detected!")
         pygame.mixer.music.play()
         while pygame.mixer.music.get_busy() == True:
             continue
-        time.sleep(1)
-    else:	 
-        print("Sound Detected!") 
-        pygame.mixer.music.play()
-        while pygame.mixer.music.get_busy() == True:
-            continue 
+       # time.sleep(1)
+        
+        if channel is not None: 
+            conn = r.connect(DB_HOST, DB_PORT, DB_NAME)
+            r.table("Anti-bark").insert(dict(ping = str(signal))).run(conn, durability ='soft')
+            conn.close()
+    else:
         time.sleep(1)
 
 
-GPIO.add_event_detect(channel, GPIO.BOTH, bouncetime=300)
+
+GPIO.add_event_detect(channel, GPIO.BOTH, bouncetime=500)
+
 GPIO.add_event_callback(channel, callback)
 
 
-if channel is not None:
-    conn = r.connect(DB_HOST, DB_PORT, DB_NAME)
-    
-    r.table("Anti-bark").insert(dict(signal = 1)).run(conn, durability ='soft')
-    conn.close()
+
+
 
 while True:
-	time.sleep(1)
+
+    if channel is not None: 
+        conn = r.connect(DB_HOST, DB_PORT, DB_NAME)
+        r.table("Anti-bark").insert(dict(ping = str(signal))).run(conn, durability ='soft')
+        conn.close()
+
+    time.sleep(1)
+
+
+
+
+
+
+
