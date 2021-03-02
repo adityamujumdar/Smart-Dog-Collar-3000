@@ -187,7 +187,7 @@ sudo reboot
 * The following steps were used on BOTH Raspberry Pi's.
 
 ```
-sudo apt-get install g++ protobuf-compiler libprotobuf-dev libboost-dev curl m4 wget
+sudo apt-get install g++ protobuf-compiler libprotobuf-dev libboost-dev curl m4 wget clang
 
 #At this point make sure you check to see that 2.0.4 is still the most recent version of RethinkDB! http://rethinkdb.com
 
