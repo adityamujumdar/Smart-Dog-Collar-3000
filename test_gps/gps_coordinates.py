@@ -69,7 +69,7 @@ def getPositionData(gps):
             )).run(conn, durability='soft')
 
         conn.close()
-        logging.info("Successful sensor read (Longitude: {:}, Latitude: {:}")
+        #logging.info("Successful sensor read (Longitude: {:}, Latitude: {:}")
 
 gpsd = gps(mode=WATCH_ENABLE|WATCH_NEWSTYLE) 
 
