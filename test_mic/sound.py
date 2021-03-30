@@ -2,7 +2,7 @@ import RPi.GPIO as GPIO
 import time
 import math
 import smbus
-import rethinkdb as rdb
+from pymongo import MongoClient
 import socket
 import datetime
 import logging
@@ -10,64 +10,34 @@ import sys
 import pygame
 
 
+mongo = MongoClient("mongodb+srv://epascua2:dCfGAzeEwD9PhHFF@autodoggo.pxxuh.mongodb.net/BarkFlag?retryWrites=true&w=majority")
+db = mongo.BarkFlag
+triggers = db.triggers
 
-r = rdb.RethinkDB()
-
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
-    datefmt='%m-%d %H:%M')
-
-
-HOSTNAME = socket.gethostname()
-DB_HOST = "192.168.0.20"
-DB_PORT = 28015
-DB_NAME = "raspberrypi_gc3"
-
-logging.info("Attempting db connection...")
-conn = r.connect(DB_HOST, DB_PORT, DB_NAME)
-logging.info("Successful DB connection")
-
-logging.info("Checking if db exists")
-
-if DB_NAME not in list(r.db_list().run(conn)):
-    logging.info("db does not exist, creating...")
-    r.db_create(DB_NAME).run(conn)
-    logging.info("db exists")
-
-logging.info("Checking to see if table exists")
-
-if 'Anti-bark' not in list(r.table_list().run(conn)):
-    logging.info("table does not exist, creating...")
-    r.table_create("Anti-bark").run(conn)
-
-logging.info("table exists")
-conn.close()
 
 pygame.mixer.init()
 pygame.mixer.music.load("highfreq.wav")
 
-#GPIO SETUP
+##GPIO SETUP
 channel = 22
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(channel, GPIO.IN)
 
-
+flag = {'anti-bark': 'ON'}
 signal = 0 
+
 def callback(channel):
 
     if GPIO.input(channel): 
         signal = 1
+        flag = {'anti-bark': 'ON'}
+        result = triggers.insert_one(flag)
         print("Sound Detected!")
         pygame.mixer.music.play()
         while pygame.mixer.music.get_busy() == True:
             continue
-       # time.sleep(1)
+        time.sleep(1)
         
-        if channel is not None: 
-            conn = r.connect(DB_HOST, DB_PORT, DB_NAME)
-            r.table("Anti-bark").insert(dict(ping = str(signal))).run(conn, durability ='soft')
-            conn.close()
     else:
         time.sleep(1)
 
@@ -77,18 +47,12 @@ GPIO.add_event_detect(channel, GPIO.BOTH, bouncetime=500)
 
 GPIO.add_event_callback(channel, callback)
 
-
-
-
-
 while True:
 
-    if channel is not None: 
-        conn = r.connect(DB_HOST, DB_PORT, DB_NAME)
-        r.table("Anti-bark").insert(dict(ping = str(signal))).run(conn, durability ='soft')
-        conn.close()
-
-    time.sleep(1)
+    
+    flag = {'anti-bark': 'OFF'}
+    result = triggers.insert_one(flag)
+    time.sleep(5)
 
 
 
