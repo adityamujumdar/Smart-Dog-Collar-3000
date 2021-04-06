@@ -237,5 +237,14 @@ exit 0
 
 # Installing MongoDB to Raspberry Pi
 
-To download the python module to use MongoDB on the Raspberry Pi, please use the following command:
+First is to download MongoDB on the Server Raspberry Pi by following these commands:
+
+```
+wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add -
+echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
+sudo apt-get update
+sudo apt-get install -y mongodb
+```
+
+To download the python module to use MongoDB on the Client Raspberry Pi, please use the following command:
 `sudo pip3 install pymongo`
