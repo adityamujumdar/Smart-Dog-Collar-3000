@@ -180,7 +180,7 @@ sudo dphys-swapfile swapon
 sudo reboot
 ```
 
-# Installing RethinkDB
+# Installing RethinkDB (Deprecated - not using)
 
 * For RethinkDB, a secondary Raspberry Pi is setup to be used as the 'server' that stores the information, while the Rasberry Pi Zero with the modules connected to it will act like the 'client' that is sending the data out.
 
@@ -234,3 +234,8 @@ exit 0
 
 * Now, to start the 'server' Raspberry Pi, please enter the following command:
 `rethinkdb --bind all`
+
+# Installing MongoDB to Raspberry Pi
+
+To download the python module to use MongoDB on the Raspberry Pi, please use the following command:
+`sudo pip3 install pymongo`
