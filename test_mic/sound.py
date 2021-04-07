@@ -15,8 +15,8 @@ def current_time():
 
 
 mongo = MongoClient("mongodb+srv://epascua2:dCfGAzeEwD9PhHFF@autodoggo.pxxuh.mongodb.net/BarkFlag?retryWrites=true&w=majority")
-db = mongo.BarkFlag
-triggers = db.triggers
+db = mongo.Sensors
+triggers = db.Microphone
 
 
 pygame.mixer.init()
@@ -27,7 +27,7 @@ channel = 22
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(channel, GPIO.IN)
 
-flag = {'anti-bark': 'ON'}
+flag = {'anti-bark': 'ON', "Time" : str(current_time())}
 signal = 0 
 
 def callback(channel):
@@ -54,7 +54,7 @@ GPIO.add_event_callback(channel, callback)
 while True:
 
     
-    flag = {'anti-bark': 'OFF'}
+    flag = {'anti-bark': 'OFF', "Time" : str(current_time())}
     result = triggers.insert_one(flag)
     time.sleep(5)
 
