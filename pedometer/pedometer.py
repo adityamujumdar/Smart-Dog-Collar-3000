@@ -6,7 +6,7 @@ import time
 #import rethinkdb as rdb
 from pymongo import MongoClient
 import socket
-import datetime
+from datetime import datetime
 import logging
 import sys
 import time
@@ -59,6 +59,8 @@ conn = MongoClient("mongodb+srv://Omie:iaTVpc1vkEG1UD7a@cluster0.o60zd.mongodb.n
 db = conn["ADM3000"]
 collection = db["Pedometer"]
 
+now = datetime.now()
+current_time = now.strftime("%H:%M:%S")
 
 PWR_M = 0x6B
 DIV = 0x19
@@ -344,7 +346,7 @@ def main():
         total_steps += steps_in_loop
         print(f'Steps Taken: {total_steps}')
 
-        list = [{'Temperature ' : str(tempC)}, {'Steps Taken ' : total_steps}]
+        list = [{'Temperature ' : str(tempC), 'Steps Taken ' : total_steps, 'Time ' : current_time}]
         y = collection.insert_many(list)
         #print(y.inserted_ids)
 
