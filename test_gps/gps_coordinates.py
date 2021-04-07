@@ -82,7 +82,7 @@ def getPositionData(gps):
         '''
 
         #Query Data to MongoDB
-        list = [{'Latitude' : latitude}, {'Longitude' : longitude}]
+        list = [{'Latitude' : latitude, 'Longitude' : longitude}]
         y = collection.insert_many(list)
         #print(y.inserted_ids)
         #logging.info("Successful sensor read (Longitude: {}, Latitude: {}")
