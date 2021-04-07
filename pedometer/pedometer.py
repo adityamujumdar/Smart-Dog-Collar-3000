@@ -3,15 +3,19 @@ import RPi.GPIO as gpio
 import smbus
 import time
 
-import rethinkdb as rdb
+#import rethinkdb as rdb
+from pymongo import MongoClient
 import socket
 import datetime
 import logging
 import sys
 import time
 
-r = rdb.RethinkDB()
+#r = rdb.RethinkDB()
 
+
+#Connection code for RethinkDB
+"""
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
@@ -42,6 +46,19 @@ if 'Accelerometer' not in list(r.table_list().run(conn)):
 
 logging.info("table exists")
 conn.close()
+"""
+
+#Connection code for MongoDB
+#try:
+#    conn = MongoClient("192.168.0.50", 27017)
+#    print("Connection Successful!")
+#except:
+#    print("Could not connect to MongoDB")
+
+conn = MongoClient("mongodb+srv://Omie:iaTVpc1vkEG1UD7a@cluster0.o60zd.mongodb.net/ADM3000?retryWrites=true&w=majority")
+db = conn["ADM3000"]
+collection = db["Pedometer"]
+
 
 PWR_M = 0x6B
 DIV = 0x19
@@ -327,6 +344,11 @@ def main():
         total_steps += steps_in_loop
         print(f'Steps Taken: {total_steps}')
 
+        list = [{'Temperature ' : str(tempC)}, {'Steps Taken ' : total_steps}]
+        y = collection.insert_many(list)
+        #print(y.inserted_ids)
+
+    """
         if temp is not None and total_steps is not None:
                 conn = r.connect(DB_HOST, DB_PORT, DB_NAME)
                 timezone = time.strftime("%z")
@@ -340,8 +362,9 @@ def main():
                         )).run(conn, durability='soft')
 
                 conn.close()
+    """
 
-                logging.info("Successful sensor read (Temp: {:}, Steps: {:+.2f}) and insert into DB.".format(str(tempC), total_steps))
+    #logging.info("Successful sensor read (Temp: {:}, Steps: {:+.2f}) and insert into DB.".format(str(tempC), total_steps))
         # print(f'pedometer val: {pedometer_val}')
         # clear()
         # print("Gyroscope Data\n")
@@ -349,6 +372,10 @@ def main():
         # for i in range(30):
         #     g_data = gyro()
         #     print(f'gryox: {g_data[0]} gyroy: {}')
+
+    #cursor = collection.find()
+    #for record in cursor:
+    #    print(record)
 
 if __name__ == '__main__':
     main()
