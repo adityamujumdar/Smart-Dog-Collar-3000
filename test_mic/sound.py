@@ -27,14 +27,14 @@ channel = 22
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(channel, GPIO.IN)
 
-flag = {'anti-bark': 'ON', "Time" : str(current_time())}
+flag = {'trigger_status': 'ON', "last_used" : str(current_time())}
 signal = 0 
 
 def callback(channel):
 
     if GPIO.input(channel): 
         signal = 1
-        flag = {'anti-bark': 'ON' , "Time" : str(current_time())}
+        flag = {'trigger_status': 'ON' , "last_used" : str(current_time())}
         result = triggers.insert_one(flag)
         print("Sound Detected!")
         pygame.mixer.music.play()
@@ -54,7 +54,7 @@ GPIO.add_event_callback(channel, callback)
 while True:
 
     
-    flag = {'anti-bark': 'OFF', "Time" : str(current_time())}
+    flag = {'trigger_status': 'OFF', "last_used" : str(current_time())}
     result = triggers.insert_one(flag)
     time.sleep(5)
 
