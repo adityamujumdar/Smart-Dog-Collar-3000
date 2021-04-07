@@ -1,13 +1,13 @@
 from gps import *
 import time
 
-import rethinkdb as rdb
+#import rethinkdb as rdb
 import socket
 import logging
 import sys
 import datetime
 
-r = rdb.RethinkDB()
+#r = rdb.RethinkDB()
 
 latitude = ' '
 longitude = ' '
@@ -18,6 +18,7 @@ logging.basicConfig(
     datefmt='%m-%d %H:%M'
     )
 
+'''
 HOSTNAME = socket.gethostname()
 DB_HOST = "192.168.0.50"
 DB_PORT = 28015
@@ -42,6 +43,13 @@ if 'GPS' not in list(r.table_list().run(conn)):
 
 logging.info("table exists")
 conn.close()
+'''
+
+#MongoDB connect
+
+conn = MongoClient("mongodb+srv://Omie:iaTVpc1vkEG1UD7a@cluster0.o60zd.mongodb.net/ADM3000?retryWrites=true&w=majority")
+db = conn["ADM3000"]
+collection = db["GPS"]
 
 running = True
 
@@ -57,6 +65,8 @@ def getPositionData(gps):
         longitude = getattr(nx,'lon', "Unknown") 
         print("Your position: lon = " + str(longitude) + ", lat = " + str(latitude))
 
+        #Query data to RethinkDB
+        '''
         if longitude is not None and latitude is not None:
             conn = r.connect(DB_HOST, DB_PORT, DB_NAME)
             timezone = time.strftime("%z")
@@ -69,9 +79,15 @@ def getPositionData(gps):
             )).run(conn, durability='soft')
 
         conn.close()
-        #logging.info("Successful sensor read (Longitude: {:}, Latitude: {:}")
+        '''
 
-gpsd = gps(mode=WATCH_ENABLE|WATCH_NEWSTYLE) 
+        #Query Data to MongoDB
+        list = [{'Latitude' : latitude, 'Longitude' : longitude}]
+        y = collection.insert_many(list)
+        #print(y.inserted_ids)
+        #logging.info("Successful sensor read (Longitude: {}, Latitude: {}")
+
+gpsd = gps(mode=WATCH_ENABLE|WATCH_NEWSTYLE)
 
 try:
     while running:
