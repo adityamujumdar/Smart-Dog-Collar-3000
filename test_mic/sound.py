@@ -8,6 +8,10 @@ import datetime
 import logging
 import sys
 import pygame
+from datetime import datetime
+
+def current_time():
+        return datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
 
 mongo = MongoClient("mongodb+srv://epascua2:dCfGAzeEwD9PhHFF@autodoggo.pxxuh.mongodb.net/BarkFlag?retryWrites=true&w=majority")
@@ -30,7 +34,7 @@ def callback(channel):
 
     if GPIO.input(channel): 
         signal = 1
-        flag = {'anti-bark': 'ON'}
+        flag = {'anti-bark': 'ON' , "Time" : str(current_time())}
         result = triggers.insert_one(flag)
         print("Sound Detected!")
         pygame.mixer.music.play()
