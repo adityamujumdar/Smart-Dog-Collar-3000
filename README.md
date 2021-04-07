@@ -248,3 +248,4 @@ sudo apt-get install -y mongodb
 
 To download the python module to use MongoDB on the Client Raspberry Pi, please use the following command:
 `sudo pip3 install pymongo`
+`sudo pip3 install dnspython`
