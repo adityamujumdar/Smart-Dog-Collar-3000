@@ -57,10 +57,3 @@ while True:
     flag = {'trigger_status': 'OFF', "last_used" : str(current_time())}
     result = triggers.insert_one(flag)
     time.sleep(5)
-
-
-
-
-
-
-
