@@ -235,7 +235,7 @@ exit 0
 * Now, to start the 'server' Raspberry Pi, please enter the following command:
 `rethinkdb --bind all`
 
-# Installing MongoDB Pyhton Module to Raspberry Pi
+# Installing MongoDB Python Module to Raspberry Pi
 
 To download the python module to use MongoDB on the Client Raspberry Pi, please use the following command:
 `sudo pip3 install pymongo`
